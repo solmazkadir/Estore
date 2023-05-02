@@ -3,9 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33530.505
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Estore.MVCUI", "Estore.MVCUI\Estore.MVCUI.csproj", "{623939B5-9EC3-4412-A216-F1169D6AC208}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Estore.MVCUI", "Estore.MVCUI\Estore.MVCUI.csproj", "{623939B5-9EC3-4412-A216-F1169D6AC208}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Estore.Core", "Estore.Core\Estore.Core.csproj", "{40658B12-519A-4699-B80F-1E499CF19137}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Estore.Core", "Estore.Core\Estore.Core.csproj", "{40658B12-519A-4699-B80F-1E499CF19137}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Estore.Data", "Estore.Data\Estore.Data.csproj", "{2AF9CC50-B7F2-442F-9FDE-335951DC283C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Estore.Service", "Estore.Service\Estore.Service.csproj", "{9CCE8C3E-8315-4302-894C-C10235DB805D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +25,14 @@ Global
 		{40658B12-519A-4699-B80F-1E499CF19137}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{40658B12-519A-4699-B80F-1E499CF19137}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{40658B12-519A-4699-B80F-1E499CF19137}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2AF9CC50-B7F2-442F-9FDE-335951DC283C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2AF9CC50-B7F2-442F-9FDE-335951DC283C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2AF9CC50-B7F2-442F-9FDE-335951DC283C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2AF9CC50-B7F2-442F-9FDE-335951DC283C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9CCE8C3E-8315-4302-894C-C10235DB805D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9CCE8C3E-8315-4302-894C-C10235DB805D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9CCE8C3E-8315-4302-894C-C10235DB805D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9CCE8C3E-8315-4302-894C-C10235DB805D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
