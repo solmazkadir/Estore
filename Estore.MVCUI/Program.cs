@@ -1,4 +1,6 @@
 using Estore.Data;
+using Estore.Service.Abstract;
+using Estore.Service.Concrete;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -6,6 +8,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddDbContext<DatabaseContext>();
+
+builder.Services.AddTransient(typeof(IService<>), typeof(Service<>)); //Kendi yazdýðýmýz db iþlemlerini yapan servisi .net core da bu þekilde mvc projesine servis olarak tanýtýyoruz ki kullanabilelim.
 
 var app = builder.Build();
 
