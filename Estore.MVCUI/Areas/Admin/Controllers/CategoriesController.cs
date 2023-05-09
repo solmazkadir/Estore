@@ -3,49 +3,50 @@ using Estore.MVCUI.Utils;
 using Estore.Service.Abstract;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Estore.MVCUI.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    public class BrandsController : Controller
+    public class CategoriesController : Controller
     {
-        private readonly IService<Brand> _service; //readonly nesneler sadece constructor metotta doldurulabilir
+        private readonly IService<Category> _service;
 
-        public BrandsController(IService<Brand> service)
+        public CategoriesController(IService<Category> service)
         {
             _service = service;
         }
 
-        // GET: BrandsController
-        public ActionResult Index()
+        // GET: CategoriesController
+        public async Task<ActionResult> Index()
         {
-            var model = _service.GetAll();
-
+            var model = await _service.GetAllAsync();
             return View(model);
         }
 
-        // GET: BrandsController/Details/5
+        // GET: CategoriesController/Details/5
         public ActionResult Details(int id)
         {
             return View();
         }
 
-        // GET: BrandsController/Create
-        public ActionResult Create()
+        // GET: CategoriesController/Create
+        public async Task<ActionResult> Create()
         {
+            ViewBag.ParentId = new SelectList(await _service.GetAllAsync(), "Id", "Name");
             return View();
         }
 
-        // POST: BrandsController/Create
+        // POST: CategoriesController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> CreateAsync(Brand collection, IFormFile? Logo)
+        public async Task<ActionResult> Create(Category collection, IFormFile? Image)
         {
             try
             {
-                if (Logo is not null)
+                if (Image is not null)
                 {
-                    collection.Logo = await FileHelper.FileLoaderAsync(Logo);
+                    collection.Image = await FileHelper.FileLoaderAsync(Image);
                 }
                 await _service.AddAsync(collection);
                 await _service.SaveAsync();
@@ -53,11 +54,12 @@ namespace Estore.MVCUI.Areas.Admin.Controllers
             }
             catch
             {
+                ViewBag.ParentId = new SelectList(await _service.GetAllAsync(), "Id", "Name");
                 return View();
             }
         }
 
-        // GET: BrandsController/Edit/5
+        // GET: CategoriesController/Edit/5
         public async Task<ActionResult> Edit(int? id)
         {
             if (id == null) // id gönderilmeden direkt edit sayfası açılırsa
@@ -69,24 +71,25 @@ namespace Estore.MVCUI.Areas.Admin.Controllers
             {
                 return NotFound(); // kayıt bulunamadı : 404
             }
+            ViewBag.ParentId = new SelectList(await _service.GetAllAsync(), "Id", "Name");
             return View(model);
         }
 
-        // POST: BrandsController/Edit/5
+        // POST: CategoriesController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit(int id, Brand collection, IFormFile? Logo, bool? resmiSil)
+        public async Task<ActionResult> Edit(int id, Category collection, IFormFile? Image, bool? resmiSil)
         {
             try
             {
                 if (resmiSil is not null && resmiSil == true)
                 {
-                    FileHelper.FileRemover(collection.Logo);
-                    collection.Logo = "";
+                    FileHelper.FileRemover(collection.Image);
+                    collection.Image = "";
                 }
-                if (Logo is not null)
+                if (Image is not null)
                 {
-                    collection.Logo = await FileHelper.FileLoaderAsync(Logo);
+                    collection.Image = await FileHelper.FileLoaderAsync(Image);
                 }
                 _service.Update(collection);
                 _service.SaveAsync();
@@ -94,33 +97,35 @@ namespace Estore.MVCUI.Areas.Admin.Controllers
             }
             catch
             {
+                ViewBag.ParentId = new SelectList(await _service.GetAllAsync(), "Id", "Name");
                 return View();
             }
         }
 
-        // GET: BrandsController/Delete/5
+        // GET: CategoriesController/Delete/5
         public async Task<ActionResult> Delete(int id)
         {
 
             var model = await _service.FindAsync(id);
-
+            
             return View(model);
         }
 
-        // POST: BrandsController/Delete/5
+        // POST: CategoriesController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Delete(int id, Brand collection)
+        public async Task<ActionResult> DeleteAsync(int id, Category collection)
         {
             try
             {
-                FileHelper.FileRemover(collection.Logo);
+                FileHelper.FileRemover(collection.Image);
                 _service.Delete(collection);
                 await _service.SaveAsync();
                 return RedirectToAction(nameof(Index));
             }
             catch
             {
+                ViewBag.ParentId = new SelectList(await _service.GetAllAsync(), "Id", "Name");
                 return View();
             }
         }
