@@ -1,12 +1,13 @@
 ﻿using Estore.Core.Entities;
 using Estore.MVCUI.Utils;
 using Estore.Service.Abstract;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Estore.MVCUI.Areas.Admin.Controllers
 {
-    [Area("Admin")]
+    [Area("Admin"), Authorize]
     public class SlidersController : Controller
     {
         private readonly IService<Slider> _service;
@@ -90,18 +91,21 @@ namespace Estore.MVCUI.Areas.Admin.Controllers
         }
 
         // GET: SlidersController/Delete/5
-        public ActionResult Delete(int id)
+        public async Task<ActionResult> Delete(int id)
         {
-            return View();
+            var model =await _service.FindAsync(id);
+            return View(model);
         }
 
         // POST: SlidersController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public ActionResult Delete(int id, Slider collection)
         {
             try
             {
+                _service.Delete(collection);
+                _service.SaveAsync();
                 return RedirectToAction(nameof(Index));
             }
             catch

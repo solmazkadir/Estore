@@ -1,12 +1,13 @@
 ﻿using Estore.Core.Entities;
 using Estore.MVCUI.Utils;
 using Estore.Service.Abstract;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Estore.MVCUI.Areas.Admin.Controllers
 {
-    [Area("Admin")]
+    [Area("Admin"),Authorize]
     public class BrandsController : Controller
     {
         private readonly IService<Brand> _service; //readonly nesneler sadece constructor metotta doldurulabilir

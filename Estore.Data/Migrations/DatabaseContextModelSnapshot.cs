@@ -47,7 +47,7 @@ namespace Estore.Data.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("varchar(50)");
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("Password")
                         .IsRequired()
@@ -60,7 +60,7 @@ namespace Estore.Data.Migrations
 
                     b.Property<string>("Surname")
                         .HasMaxLength(50)
-                        .HasColumnType("varchar(50)");
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<Guid?>("UserGuid")
                         .HasColumnType("uniqueidentifier");
@@ -77,13 +77,13 @@ namespace Estore.Data.Migrations
                         new
                         {
                             Id = 1,
-                            CreateDate = new DateTime(2023, 5, 2, 22, 45, 23, 800, DateTimeKind.Local).AddTicks(1638),
+                            CreateDate = new DateTime(2023, 5, 15, 21, 54, 56, 427, DateTimeKind.Local).AddTicks(7283),
                             Email = "info@Estore.com",
                             IsActive = true,
                             IsAdmin = true,
                             Name = "Admin",
                             Password = "123",
-                            UserGuid = new Guid("e66c6b52-4df5-4a09-ac9a-669e30bad959"),
+                            UserGuid = new Guid("f2124eb4-0e42-4aab-88a4-6c06a23575c0"),
                             UserName = "Admin"
                         });
                 });
