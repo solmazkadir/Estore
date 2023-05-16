@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Estore.MVCUI.Areas.Admin.Controllers
 {
-    [Area("Admin"), Authorize]
+    [Area("Admin"), Authorize(Policy = "AdminPolicy")]
     public class SlidersController : Controller
     {
         private readonly IService<Slider> _service;

@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Estore.MVCUI.Areas.Admin.Controllers
 {
-    [Area("Admin"), Authorize]
+    [Area("Admin"), Authorize(Policy = "AdminPolicy")]
     public class ContactsController : Controller
     {
         private readonly IService<Contact> _service;

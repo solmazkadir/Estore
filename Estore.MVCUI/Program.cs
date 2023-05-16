@@ -23,7 +23,11 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
     x.Cookie.MaxAge = TimeSpan.FromDays(1); //Oluþacak cookie nin ömrü
 }); ; //Oturum iþlemleri için
 //Uygulama admin paneli için admin yetkilendirme ayarlarý
-builder.Services.AddAuthorization();
+builder.Services.AddAuthorization(x =>
+{
+    x.AddPolicy("AdminPolicy", p => p.RequireClaim("Role","Admin")); //admin paneline giriþ yapma yetkisine sahip olanlarý bu kuralla kontrol edeceðiz.
+    x.AddPolicy("UserPolicy", p => p.RequireClaim("Role","User")); //admin dýþýnda yekilendirme kullanýrsak bu kuralý kullanacaðýz(siteye üye giriþi yapanlarý ön yüzde bir panele eriþtirme gibi)
+});
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

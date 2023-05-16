@@ -1,4 +1,6 @@
-﻿using Estore.MVCUI.Models;
+﻿using Estore.Core.Entities;
+using Estore.MVCUI.Models;
+using Estore.Service.Abstract;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -6,19 +8,28 @@ namespace Estore.MVCUI.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly IService<Slider> _serviceSlider;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(IService<Slider> serviceSlider)
         {
-            _logger = logger;
+            _serviceSlider = serviceSlider;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var model = new HomePageViewModel()
+            {
+                Sliders = await _serviceSlider.GetAllAsync()
+            };
+            return View(model);
         }
 
         public IActionResult Privacy()
+        {
+            return View();
+        }
+        [Route("AccessDenied")]
+        public IActionResult AccessDenied()
         {
             return View();
         }
