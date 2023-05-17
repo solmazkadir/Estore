@@ -102,7 +102,7 @@ namespace Estore.MVCUI.Areas.Admin.Controllers
                     collection.Image = await FileHelper.FileLoaderAsync(Image);
                 }
                 _service.Update(collection);
-                _service.SaveAsync();
+               await _service.SaveAsync();
                 return RedirectToAction(nameof(Index));
             }
             catch
