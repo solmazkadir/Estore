@@ -1,18 +1,14 @@
-﻿@model Contact
-
+﻿@model AppUser
 @{
-    ViewData["Title"] = "İletişim";
+    ViewData["Title"] = "Hesap Yönetimi";
 }
 
-<h1>İletişim</h1>
-
 <div class="row">
-    
-    <div class="col-md-4">
-        <h4>Bize Ulaşın</h4>
+    <div class="col-md-4 m-auto">
+        <h1>Hesap Yönetimi</h1>
+
         <hr />
-        
-        <form asp-action="ContactUs">
+        <form asp-action="UpdateUser">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Name" class="control-label"></label>
@@ -30,41 +26,19 @@
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="Password" class="control-label"></label>
+                <input asp-for="Password" class="form-control" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
                 <label asp-for="Phone" class="control-label"></label>
                 <input asp-for="Phone" class="form-control" />
                 <span asp-validation-for="Phone" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Message" class="control-label"></label>
-                <textarea asp-for="Message" class="form-control"></textarea>
-                <span asp-validation-for="Message" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Gönder" class="btn btn-primary mt-3" />
+                <input type="submit" value="Kaydet" class="btn btn-primary" />
             </div>
         </form>
     </div>
-    <div class="col-md-4 m-auto">
-        <h4>Adres Bilgilerimiz</h4>
-        <hr />
-        <table>
-            <tr>
-                <th>Adres</th>
-                <td>Beyşehir/Konya</td>
-            </tr>
-            <tr>
-                <th>Telefon</th>
-                <td>0850 272 7454</td>
-            </tr>
-             <tr>
-                <th>Email</th>
-                <td>info@siteadi.com</td>
-            </tr
-        </table>
-    </div>
-
-   
 </div>
-
-
-
