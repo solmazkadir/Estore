@@ -7,9 +7,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Estore.MVCUI", "Estore.MVCU
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Estore.Core", "Estore.Core\Estore.Core.csproj", "{40658B12-519A-4699-B80F-1E499CF19137}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Estore.Data", "Estore.Data\Estore.Data.csproj", "{2AF9CC50-B7F2-442F-9FDE-335951DC283C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Estore.Data", "Estore.Data\Estore.Data.csproj", "{2AF9CC50-B7F2-442F-9FDE-335951DC283C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Estore.Service", "Estore.Service\Estore.Service.csproj", "{9CCE8C3E-8315-4302-894C-C10235DB805D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Estore.Service", "Estore.Service\Estore.Service.csproj", "{9CCE8C3E-8315-4302-894C-C10235DB805D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Estore.WebAPI", "Estore.WebAPI\Estore.WebAPI.csproj", "{B8DBC000-F64D-4AB7-9DF6-CF4348E495F2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{9CCE8C3E-8315-4302-894C-C10235DB805D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9CCE8C3E-8315-4302-894C-C10235DB805D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9CCE8C3E-8315-4302-894C-C10235DB805D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B8DBC000-F64D-4AB7-9DF6-CF4348E495F2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B8DBC000-F64D-4AB7-9DF6-CF4348E495F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B8DBC000-F64D-4AB7-9DF6-CF4348E495F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B8DBC000-F64D-4AB7-9DF6-CF4348E495F2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
