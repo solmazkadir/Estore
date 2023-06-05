@@ -40,7 +40,7 @@ namespace Estore.WebAPI.Controllers
 
         // PUT api/<CategoriesController>/5
         [HttpPut]
-        public async Task<int> Put(int id, [FromBody] Category value)
+        public async Task<int> Put( [FromBody] Category value)
         {
             _service.Update(value);
             return await _service.SaveAsync();
