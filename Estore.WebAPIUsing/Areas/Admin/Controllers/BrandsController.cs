@@ -1,27 +1,25 @@
 ﻿using Estore.Core.Entities;
-using Estore.MVCUI.Utils;
-using Estore.Service.Abstract;
-using Microsoft.AspNetCore.Authorization;
+using Estore.WebAPIUsing.Utils;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Estore.MVCUI.Areas.Admin.Controllers
+namespace Estore.WebAPIUsing.Areas.Admin.Controllers
 {
-    [Area("Admin"), Authorize(Policy = "AdminPolicy")]
+    [Area("Admin")]
     public class BrandsController : Controller
     {
-        private readonly IService<Brand> _service; //readonly nesneler sadece constructor metotta doldurulabilir
+        private readonly HttpClient _httpClient; // _httpClient nesnesini kullanarak apilere istek gönderebiliriz
 
-        public BrandsController(IService<Brand> service)
+        public BrandsController(HttpClient httpClient)
         {
-            _service = service;
+            _httpClient = httpClient;
         }
 
+        private readonly string _apiAdres = "https://localhost:7064/api/Brands";
         // GET: BrandsController
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
-            var model = _service.GetAll();
-
+            var model = await _httpClient.GetFromJsonAsync<List<Brand>>(_apiAdres);
             return View(model);
         }
 
@@ -40,7 +38,7 @@ namespace Estore.MVCUI.Areas.Admin.Controllers
         // POST: BrandsController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> CreateAsync(Brand collection, IFormFile? Logo)
+        public async Task<IActionResult> Create(Brand collection, IFormFile? Logo)
         {
             try
             {
@@ -48,35 +46,30 @@ namespace Estore.MVCUI.Areas.Admin.Controllers
                 {
                     collection.Logo = await FileHelper.FileLoaderAsync(Logo);
                 }
-                await _service.AddAsync(collection);
-                await _service.SaveAsync();
-                return RedirectToAction(nameof(Index));
+                var response = await _httpClient.PostAsJsonAsync(_apiAdres, collection);
+                if (response.IsSuccessStatusCode)
+                {
+                    return RedirectToAction(nameof(Index));
+                }
             }
             catch
             {
-                return View();
+                ModelState.AddModelError("", "Hata Oluştu!");
             }
+            return View(collection);
         }
 
         // GET: BrandsController/Edit/5
-        public async Task<ActionResult> Edit(int? id)
+        public async Task<ActionResult> Edit(int id)
         {
-            if (id == null) // id gönderilmeden direkt edit sayfası açılırsa
-            {
-                return BadRequest(); //geriye geçersiz istek hatası döndür
-            }
-            var model = await _service.FindAsync(id.Value); // yukarıdaki id yi ? ile nullable yaparsak
-            if (model == null)
-            {
-                return NotFound(); // kayıt bulunamadı : 404
-            }
+            var model = await _httpClient.GetFromJsonAsync<Brand>(_apiAdres + "/" + id);
             return View(model);
         }
 
         // POST: BrandsController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit(int id, Brand collection, IFormFile? Logo, bool? resmiSil)
+        public async Task<ActionResult> EditAsync(int id, Brand collection, IFormFile? Logo, bool? resmiSil)
         {
             try
             {
@@ -89,35 +82,37 @@ namespace Estore.MVCUI.Areas.Admin.Controllers
                 {
                     collection.Logo = await FileHelper.FileLoaderAsync(Logo);
                 }
-                _service.Update(collection);
-                await _service.SaveAsync();
-                return RedirectToAction(nameof(Index));
+                var response = await _httpClient.PutAsJsonAsync(_apiAdres, collection);
+                if (response.IsSuccessStatusCode) //api den başarılı bir istek kodu geldiyse(200 ok)
+                {
+                    return RedirectToAction(nameof(Index));
+                }
+
             }
             catch
             {
-                return View();
+                ModelState.AddModelError("", "Hata Oluştu!");
             }
+            return View();
         }
 
         // GET: BrandsController/Delete/5
         public async Task<ActionResult> Delete(int id)
         {
 
-            var model = await _service.FindAsync(id);
-
+            var model = await _httpClient.GetFromJsonAsync<Brand>(_apiAdres + "/" + id);
             return View(model);
         }
 
         // POST: BrandsController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Delete(int id, Brand collection)
+        public async Task<ActionResult> DeleteAsync(int id, Brand collection)
         {
             try
             {
                 FileHelper.FileRemover(collection.Logo);
-                _service.Delete(collection);
-                await _service.SaveAsync();
+                await _httpClient.DeleteAsync(_apiAdres + "/" + id);
                 return RedirectToAction(nameof(Index));
             }
             catch

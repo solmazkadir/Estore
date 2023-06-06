@@ -48,12 +48,17 @@ namespace Estore.WebAPI.Controllers
         }
 
         // DELETE api/<CategoriesController>/5
-        [HttpDelete]
-        public async Task<int> Delete([FromBody] Category value)
+        [HttpDelete("{id}")]
+        public ActionResult Delete(int id)
         {
-
-            _service.Delete(value);
-            return await _service.SaveAsync();
+            var kayit = _service.Find(id);
+            if (kayit == null)
+            {
+                return NotFound();
+            }
+            _service.Delete(kayit);
+            _service.Save();
+            return Ok(kayit);
         }
     }
 }

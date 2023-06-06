@@ -1,0 +1,136 @@
+﻿using Estore.Core.Entities;
+using Estore.WebAPIUsing.Utils;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+
+namespace Estore.WebAPIUsing.Areas.Admin.Controllers
+{
+    [Area("Admin")]
+    public class ProductsController : Controller
+    {
+        private readonly HttpClient _httpClient;
+
+        private readonly string _apiAdres = "https://localhost:7064/api/Products";
+        private readonly string _apiAdresKategori = "https://localhost:7064/api/Categories";
+        private readonly string _apiAdresMarka = "https://localhost:7064/api/Brands";
+        public ProductsController(HttpClient httpClient)
+        {
+            _httpClient = httpClient;
+        }
+        // GET: ProductsController
+        public async Task<ActionResult> Index()
+        {
+            var model = await _httpClient.GetFromJsonAsync<List<Product>>(_apiAdres);
+            return View(model);
+        }
+
+        // GET: ProductsController/Details/5
+        public ActionResult Details(int id)
+        {
+            return View();
+        }
+
+        // GET: ProductsController/Create
+        public async Task<ActionResult> CreateAsync()
+        {
+            ViewBag.CategoryId = new SelectList(await _httpClient.GetFromJsonAsync<List<Category>>(_apiAdresKategori), "Id", "Name");
+            ViewBag.BrandId = new SelectList(await _httpClient.GetFromJsonAsync<List<Brand>>(_apiAdresMarka), "Id", "Name");
+            return View();
+        }
+
+        // POST: ProductsController/Create
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> CreateAsync(Product collection, IFormFile? Image)
+        {
+            try
+            {
+                if (Image is not null)
+                {
+                    collection.Image = await FileHelper.FileLoaderAsync(Image);
+                }
+
+                var response = await _httpClient.PostAsJsonAsync(_apiAdres, collection);
+                if (response.IsSuccessStatusCode)
+                {
+                    return RedirectToAction(nameof(Index));
+                }
+            }
+            catch
+            {
+                ModelState.AddModelError("", "Hata Oluştu!");
+            }
+            ViewBag.CategoryId = new SelectList(await _httpClient.GetFromJsonAsync<List<Category>>(_apiAdresKategori), "Id", "Name");
+            ViewBag.BrandId = new SelectList(await _httpClient.GetFromJsonAsync<List<Brand>>(_apiAdresMarka), "Id", "Name");
+            return View();
+        }
+
+        // GET: ProductsController/Edit/5
+        public async Task<ActionResult> EditAsync(int id)
+        {
+            ViewBag.CategoryId = new SelectList(await _httpClient.GetFromJsonAsync<List<Category>>(_apiAdresKategori), "Id", "Name");
+            ViewBag.BrandId = new SelectList(await _httpClient.GetFromJsonAsync<List<Brand>>(_apiAdresMarka), "Id", "Name");
+            var model = await _httpClient.GetFromJsonAsync<Product>(_apiAdres + "/" + id);
+            return View(model);
+        }
+
+        // POST: ProductsController/Edit/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Edit(int id, Product collection, IFormFile? Image, bool? resmiSil)
+        {
+            try
+            {
+                if (resmiSil is not null && resmiSil == true)
+                {
+                    FileHelper.FileRemover(collection.Image);
+                    collection.Image = "";
+                }
+                if (Image is not null)
+                {
+                    collection.Image = await FileHelper.FileLoaderAsync(Image);
+                }
+                var response = await _httpClient.PutAsJsonAsync(_apiAdres, collection);
+                if (response.IsSuccessStatusCode) //api den başarılı bir istek kodu geldiyse(200 ok)
+                {
+                    return RedirectToAction(nameof(Index));
+                }
+
+            }
+            catch
+            {
+                ModelState.AddModelError("", "Hata Oluştu!");
+            }
+            ViewBag.CategoryId = new SelectList(await _httpClient.GetFromJsonAsync<List<Category>>(_apiAdresKategori), "Id", "Name");
+            ViewBag.BrandId = new SelectList(await _httpClient.GetFromJsonAsync<List<Brand>>(_apiAdresMarka), "Id", "Name");
+            return View();
+        }
+
+        // GET: ProductsController/Delete/5
+        public async Task<ActionResult> Delete(int id)
+        {
+
+            var model = await _httpClient.GetFromJsonAsync<Product>(_apiAdres + "/" + id);
+            return View(model);
+        }
+
+        // POST: ProductsController/Delete/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Delete(int id, Product collection)
+        {
+            try
+            {
+                FileHelper.FileRemover(collection.Image);
+                await _httpClient.DeleteAsync(_apiAdres + "/" + id);
+                return RedirectToAction(nameof(Index));
+            }
+            catch
+            {
+                return View();
+            }
+        }
+    }
+}
