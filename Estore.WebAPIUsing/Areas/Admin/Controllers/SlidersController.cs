@@ -1,12 +1,13 @@
 ﻿using Estore.Core.Entities;
 using Estore.WebAPIUsing.Utils;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Estore.WebAPIUsing.Areas.Admin.Controllers
 {
-    [Area("Admin")]
+    [Area("Admin"), Authorize(Policy = "AdminPolicy")]
     public class SlidersController : Controller
     {
         private readonly HttpClient _httpClient;

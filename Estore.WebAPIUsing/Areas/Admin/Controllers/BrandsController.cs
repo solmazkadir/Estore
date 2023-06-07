@@ -1,11 +1,12 @@
 ﻿using Estore.Core.Entities;
 using Estore.WebAPIUsing.Utils;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Estore.WebAPIUsing.Areas.Admin.Controllers
 {
-    [Area("Admin")]
+    [Area("Admin"), Authorize(Policy = "AdminPolicy")]
     public class BrandsController : Controller
     {
         private readonly HttpClient _httpClient; // _httpClient nesnesini kullanarak apilere istek gönderebiliriz
