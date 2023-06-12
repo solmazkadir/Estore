@@ -20,7 +20,8 @@ namespace Estore.WebAPIUsing.Controllers
             {
                 return NotFound();
             }
-            model.Products = await _httpClient.GetFromJsonAsync<List<Product>>(_apiAdres + "Products");
+           // model.Products = await _httpClient.GetFromJsonAsync<List<Product>>(_apiAdres + "Products");
+           
             return View(model);
         }
     }

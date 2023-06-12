@@ -31,6 +31,13 @@ namespace Estore.WebAPI.Controllers
             return await _service.GetProductByIncludeAsync(id);
         }
 
+        // GET api/<ProductsController>/GetSearch
+        [HttpGet("GetSearch/{q}")]
+        public async Task<IEnumerable<Product>> GetSearchAsync(string q)
+        {
+            return await _service.GetProductsByIncludeAsync(p => p.IsActive && p.Name.Contains(q) || p.Description.Contains(q) || p.Brand.Name.Contains(q) || p.Category.Name.Contains(q));
+        }
+
         // POST api/<ProductsController>
         [HttpPost]
         public async Task<ActionResult> PostAsync([FromBody] Product value)
