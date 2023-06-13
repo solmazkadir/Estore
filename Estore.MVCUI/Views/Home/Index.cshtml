@@ -22,3 +22,50 @@
         </div>
     </div>
 </section>
+<hr />
+<div class="text-center mt-3">
+    <h4 class="display-4">En Popüler Markalar</h4>
+</div>
+<section class="py-1">
+    <div class="container px-4 px-lg-5 mt-5">
+        <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+
+            @foreach (var item in Model.Brands)
+            {
+                @if (!string.IsNullOrEmpty(@item.Logo))
+                {
+                    <div class="col">
+                        <a  href="/Brands/Index/@item.Id">
+                            <img src="/Img/@item.Logo" alt="@item.Name" class="img-thumbnail" style="height:300px;width:300px" />
+                        </a>
+                    </div>
+                }
+
+            }
+        </div>
+    </div>
+</section>
+<hr />
+<div class="text-center mt-3">
+    <a class="nav-link text-dark" asp-action="Index" asp-controller="News"><h4 class="display-4">Bizden Haberler</h4></a>
+</div>
+<section class="py-1">
+    <div class="container px-4 px-lg-5 mt-5">
+        <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+
+            @foreach (var item in Model.News)
+            {
+                @if (!string.IsNullOrEmpty(@item.Image))
+                {
+                    <div class="col">
+                        <a class="nav-link text-dark text-center" href="/News/Detail/@item.Id">
+                            <img src="/Img/@item.Image" alt="@item.Title" class="img-thumbnail" style="height:300px;width:300px" />
+                            <h3>@item.Title</h3>
+                        </a>
+                    </div>
+                }
+
+            }
+        </div>
+    </div>
+</section>

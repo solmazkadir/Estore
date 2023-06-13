@@ -13,8 +13,8 @@ namespace Estore.MVCUI.Controllers
         {
             _serviceProduct = serviceProduct;
         }
-        [Route("tum-urunlerimiz")] //adres çubuğundan tum-urunlerimiz yazınca bu action çalışsın
-        public async Task<IActionResult> IndexAsync()
+        //[Route("tum-urunlerimiz")] //adres çubuğundan tum-urunlerimiz yazınca bu action çalışsın
+        public async Task<IActionResult> Index()
         {
             var model = await _serviceProduct.GetAllAsync(p => p.IsActive);
             return View(model);

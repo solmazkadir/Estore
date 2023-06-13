@@ -9,39 +9,38 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 namespace Estore.MVCUI.Areas.Admin.Controllers
 {
     [Area("Admin"), Authorize(Policy = "AdminPolicy")]
-    public class CategoriesController : Controller
+    public class NewsController : Controller
     {
-        private readonly IService<Category> _service;
+        private readonly IService<News> _service;
 
-        public CategoriesController(IService<Category> service)
+        public NewsController(IService<News> service)
         {
             _service = service;
         }
 
-        // GET: CategoriesController
+        // GET: NewsController
         public async Task<ActionResult> Index()
         {
             var model = await _service.GetAllAsync();
             return View(model);
         }
 
-        // GET: CategoriesController/Details/5
+        // GET: NewsController/Details/5
         public ActionResult Details(int id)
         {
             return View();
         }
 
-        // GET: CategoriesController/Create
-        public async Task<ActionResult> Create()
+        // GET: NewsController/Create
+        public ActionResult Create()
         {
-            ViewBag.ParentId = new SelectList(await _service.GetAllAsync(), "Id", "Name");
             return View();
         }
 
-        // POST: CategoriesController/Create
+        // POST: NewsController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(Category collection, IFormFile? Image)
+        public async Task<ActionResult> CreateAsync(News collection, IFormFile? Image)
         {
             try
             {
@@ -55,31 +54,23 @@ namespace Estore.MVCUI.Areas.Admin.Controllers
             }
             catch
             {
-                ViewBag.ParentId = new SelectList(await _service.GetAllAsync(), "Id", "Name");
-                return View();
+                ModelState.AddModelError("","Hata Oluştu!");
+                
             }
+            return View();
         }
 
-        // GET: CategoriesController/Edit/5
-        public async Task<ActionResult> Edit(int? id)
+        // GET: NewsController/Edit/5
+        public async Task<ActionResult> Edit(int id)
         {
-            if (id == null) // id gönderilmeden direkt edit sayfası açılırsa
-            {
-                return BadRequest(); //geriye geçersiz istek hatası döndür
-            }
-            var model = await _service.FindAsync(id.Value); // yukarıdaki id yi ? ile nullable yaparsak
-            if (model == null)
-            {
-                return NotFound(); // kayıt bulunamadı : 404
-            }
-            ViewBag.ParentId = new SelectList(await _service.GetAllAsync(), "Id", "Name");
+            var model = await _service.FindAsync(id);
             return View(model);
         }
 
-        // POST: CategoriesController/Edit/5
+        // POST: NewsController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit(int id, Category collection, IFormFile? Image, bool? resmiSil)
+        public async Task<ActionResult> EditAsync(int id, News collection, IFormFile? Image, bool? resmiSil)
         {
             try
             {
@@ -98,24 +89,23 @@ namespace Estore.MVCUI.Areas.Admin.Controllers
             }
             catch
             {
-                ViewBag.ParentId = new SelectList(await _service.GetAllAsync(), "Id", "Name");
-                return View();
+                ModelState.AddModelError("", "Hata Oluştu!");
+
             }
+            return View();
         }
 
-        // GET: CategoriesController/Delete/5
+        // GET: NewsController/Delete/5
         public async Task<ActionResult> Delete(int id)
         {
-
             var model = await _service.FindAsync(id);
-
             return View(model);
         }
 
-        // POST: CategoriesController/Delete/5
+        // POST: NewsController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> DeleteAsync(int id, Category collection)
+        public async Task<ActionResult> DeleteAsync(int id, News collection)
         {
             try
             {
@@ -126,9 +116,10 @@ namespace Estore.MVCUI.Areas.Admin.Controllers
             }
             catch
             {
-                ViewBag.ParentId = new SelectList(await _service.GetAllAsync(), "Id", "Name");
-                return View();
+                ModelState.AddModelError("", "Hata Oluştu!");
+
             }
+            return View();
         }
     }
 }
