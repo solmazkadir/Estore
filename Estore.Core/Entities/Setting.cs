@@ -13,7 +13,7 @@ namespace Estore.Core.Entities
         public int Id { get; set; }
         [Display(Name = "Site Başlık")]
         public string? Title { get; set; }
-        [Display(Name = "Site Açıklama")]
+        [Display(Name = "Site Açıklama"), DataType(DataType.MultilineText)]
         public string? Description { get; set; }
         public string? Email { get; set; }
         [Display(Name = "Telefon")]
@@ -29,6 +29,10 @@ namespace Estore.Core.Entities
         public string? Favicon { get; set; }
         [Display(Name = "Site Logosu")]
         public string? Logo { get; set; }
+        [Display(Name = "Firma Adresi"), DataType(DataType.MultilineText)]
+        public string? Address { get; set; }
+        [Display(Name = "Harita Kodu"),DataType(DataType.MultilineText)]
+        public string? MapCode { get; set; }
 
 
     }

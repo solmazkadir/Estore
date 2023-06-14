@@ -28,6 +28,8 @@
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                     <li><a class="dropdown-item" href="/Admin/Settings">Ayarlar</a></li>
                     <li><hr class="dropdown-divider" /></li>
+                    <li><a class="dropdown-item" href="/Admin/Logs">Log Kayıtları</a></li>
+                    <li><hr class="dropdown-divider" /></li>
                     <li><a class="dropdown-item" href="/" target="_blank">Siteyi Önizle</a></li>
                     <li><hr class="dropdown-divider"/></li>
                     <li><a class="dropdown-item" href="/Logout">Çıkış</a></li>
@@ -41,6 +43,7 @@
             <main role="main">
                 <div class="container-fluid px-4">
                     <h1 class="mt-4">@ViewData["Title"]</h1>
+                    @Html.Raw(TempData["Message"])
                     @RenderBody()
                 </div>
             </main>

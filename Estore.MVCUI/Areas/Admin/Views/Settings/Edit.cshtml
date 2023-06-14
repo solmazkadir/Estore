@@ -5,10 +5,12 @@
 }
 
 <div class="row">
-    <div class="col-md-4" >
+    <div class="col-md-4">
         <form asp-action="Edit" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="Logo" />
+            <input type="hidden" asp-for="Favicon" />
             <div class="form-group">
                 <label asp-for="Title" class="control-label"></label>
                 <input asp-for="Title" class="form-control" />
@@ -16,7 +18,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" />
+                <textarea asp-for="Description" class="form-control"></textarea>
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -51,13 +53,41 @@
             </div>
             <div class="form-group">
                 <label asp-for="Favicon" class="control-label"></label>
-                <input asp-for="Favicon" class="form-control" type="file"/>
+                <input asp-for="Favicon" class="form-control" type="file" />
                 <span asp-validation-for="Favicon" class="text-danger"></span>
+                @if (!string.IsNullOrEmpty(Model.Favicon))
+                {
+                    <img src="/Img/@Model.Favicon" alt="" height="100" />
+                    <div class="form-group form-check">
+                        <label class="form-check-label">
+                            @Html.CheckBox("faviconuSil") Fotoğrafı Kaldır
+                        </label>
+                    </div>
+                }
             </div>
             <div class="form-group">
                 <label asp-for="Logo" class="control-label"></label>
                 <input asp-for="Logo" class="form-control" type="file" />
                 <span asp-validation-for="Logo" class="text-danger"></span>
+                @if (!string.IsNullOrEmpty(Model.Logo))
+                {
+                    <img src="/Img/@Model.Logo" alt="" height="100" />
+                    <div class="form-group form-check">
+                        <label class="form-check-label">
+                            @Html.CheckBox("logoyuSil") Fotoğrafı Kaldır
+                        </label>
+                    </div>
+                }
+            </div>
+            <div class="form-group">
+                <label asp-for="Address" class="control-label"></label>
+                <textarea asp-for="Address" class="form-control"></textarea>
+                <span asp-validation-for="Address" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MapCode" class="control-label"></label>
+                <textarea asp-for="MapCode" class="form-control"></textarea>
+                <span asp-validation-for="MapCode" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Kaydet" class="btn btn-primary mt-2" />

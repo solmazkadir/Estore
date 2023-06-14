@@ -1,7 +1,11 @@
-﻿@model Contact
-
+﻿@using Estore.Service.Abstract;
+@model Contact
+@inject IService<Setting> _serviceSetting
 @{
     ViewData["Title"] = "İletişim";
+    var settings = await _serviceSetting.GetAllAsync();
+    var setting = settings.FirstOrDefault();
+
 }
 
 <h1>İletişim</h1>
@@ -50,15 +54,25 @@
         <table>
             <tr>
                 <th>Adres</th>
-                <td>Beyşehir/Konya</td>
+              
+                <td>  @if (setting is not null)
+                {
+                    @setting.Address
+                }</td>
             </tr>
             <tr>
-                <th>Telefon</th>
-                <td>0850 272 7454</td>
+                <th>Telefon </th>
+                <td> @if (setting is not null)
+                {
+                     @setting.Phone
+                }</td>
             </tr>
              <tr>
                 <th>Email</th>
-                <td>info@siteadi.com</td>
+                <td> @if (setting is not null)
+                {
+                    @setting.Email
+                }</td>
             </tr
         </table>
     </div>
