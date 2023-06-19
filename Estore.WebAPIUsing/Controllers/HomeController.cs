@@ -18,9 +18,12 @@ namespace Estore.WebAPIUsing.Controllers
         public async Task<IActionResult> Index()
         {
             var products = await _httpClient.GetFromJsonAsync<List<Product>>(_apiAdres + "Products");
+            var brands = await _httpClient.GetFromJsonAsync<List<Brand>>(_apiAdres + "Brands");
             var model = new HomePageViewModel()
             {
                 Sliders = await _httpClient.GetFromJsonAsync<List<Slider>>(_apiAdres + "Sliders"),
+                Brands = brands.Where(p => p.IsActive).ToList(),
+                News = await _httpClient.GetFromJsonAsync<List<News>>(_apiAdres + "News"),
                 Products = products.Where(p=>p.IsActive&&p.IsHome).ToList()
         };
             return View(model);

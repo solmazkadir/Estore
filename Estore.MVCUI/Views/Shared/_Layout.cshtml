@@ -1,9 +1,15 @@
-﻿<!DOCTYPE html>
+﻿@using Estore.Service.Abstract;
+@inject IService<Setting> _serviceSetting;
+@{
+    var settings = await _serviceSetting.GetAllAsync(); //db den ayarları çek
+    var setting = settings.FirstOrDefault(); //ayar listesindeki ilk ayarı getir
+}
+<!DOCTYPE html>
 <html lang="tr">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Estore.MVCUI</title>
+    <title>@ViewData["Title"]</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/Estore.MVCUI.styles.css" asp-append-version="true" />
@@ -12,7 +18,18 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Estore</a>
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index" >
+                    @if (setting is not null)
+                    {
+                        <img src="/Img/@setting.Logo" alt="" height="50" style="background-color:darkblue" />
+                    }
+                    else
+                    {
+                        @:Logo
+                    }
+
+                    Estore
+                </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
