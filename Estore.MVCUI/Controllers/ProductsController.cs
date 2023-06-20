@@ -8,10 +8,11 @@ namespace Estore.MVCUI.Controllers
     public class ProductsController : Controller
     {
         private readonly IProductService _serviceProduct;
-
-        public ProductsController(IProductService serviceProduct)
+        private readonly IService<AppLog> _serviceLog;
+        public ProductsController(IProductService serviceProduct, IService<AppLog> serviceLog)
         {
             _serviceProduct = serviceProduct;
+            _serviceLog = serviceLog;
         }
         //[Route("tum-urunlerimiz")] //adres çubuğundan tum-urunlerimiz yazınca bu action çalışsın
         public async Task<IActionResult> Index()
@@ -27,14 +28,34 @@ namespace Estore.MVCUI.Controllers
         public async Task<IActionResult> Detail(int id)
         {
             var model = new ProductDetailViewModel();
-            var product = await _serviceProduct.GetProductByIncludeAsync(id);
-            model.Product = product;
-            model.RelatedProducts = await _serviceProduct.GetAllAsync(p => p.CategoryId == product.CategoryId && p.Id != id);
-            if (model is null)
+            try
+            {
+                var product = await _serviceProduct.GetProductByIncludeAsync(id);
+                model.Product = product;
+                model.RelatedProducts = await _serviceProduct.GetAllAsync(p => p.CategoryId == product.CategoryId && p.Id != id);
+               
+                if (product is null)
+                {
+                    return NotFound();
+                }
+
+            }
+            catch (Exception hata)
+            {
+
+                var log = new AppLog()
+                {
+                    Description = "Hata Oluştu : " + hata.Message,
+                    Title = "Hata Oluştu"
+                };
+                await _serviceLog.AddAsync(log);
+                await _serviceLog.SaveAsync();
+            }
+
+            if (model.Product is null)
             {
                 return NotFound();
             }
-
             return View(model);
         }
     }

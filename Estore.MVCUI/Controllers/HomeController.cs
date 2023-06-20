@@ -14,10 +14,10 @@ namespace Estore.MVCUI.Controllers
         private readonly IService<Contact> _serviceContact;
         private readonly IService<News> _serviceNews;
         private readonly IService<Brand> _serviceBrand;
-        private readonly IService<Log> _serviceLog;
+        private readonly IService<AppLog> _serviceLog;
         private readonly IService<Setting> _serviceSetting;
 
-        public HomeController(IService<Slider> serviceSlider, IService<Product> serviceProduct, IService<Contact> serviceContact, IService<News> serviceNews, IService<Brand> serviceBrand, IService<Log> serviceLog, IService<Setting> serviceSetting)
+        public HomeController(IService<Slider> serviceSlider, IService<Product> serviceProduct, IService<Contact> serviceContact, IService<News> serviceNews, IService<Brand> serviceBrand, IService<AppLog> serviceLog, IService<Setting> serviceSetting)
         {
             _serviceSlider = serviceSlider;
             _serviceProduct = serviceProduct;
@@ -40,8 +40,9 @@ namespace Estore.MVCUI.Controllers
             return View(model);
         }
 
-        public IActionResult Privacy()
+        public async Task<IActionResult> Privacy()
         {
+           
             return View();
         }
         [Route("iletisim")]
@@ -73,7 +74,7 @@ namespace Estore.MVCUI.Controllers
                 }
                 catch (Exception hata)
                 {
-                    await _serviceLog.AddAsync(new Log
+                    await _serviceLog.AddAsync(new AppLog
                     {
                         Title = "İletişim Formu Gönderilirken Hata Oluştu",
                         Description = hata.Message

@@ -9,9 +9,9 @@ namespace Estore.MVCUI.Areas.Admin.Controllers
     [Area("Admin"), Authorize(Policy = "AdminPolicy")]
     public class LogsController : Controller
     {
-        private readonly IService<Log> _service;
+        private readonly IService<AppLog> _service;
 
-        public LogsController(IService<Log> service)
+        public LogsController(IService<AppLog> service)
         {
             _service = service;
         }
